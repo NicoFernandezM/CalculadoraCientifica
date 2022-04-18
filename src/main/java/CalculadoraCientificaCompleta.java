@@ -163,16 +163,16 @@ public class CalculadoraCientificaCompleta {
     }
 
     public static void divideOption(double number1, double number2) {
-        //No sé que retornar en el catch, había pensado en resolverlo con un if.
         if(number2 == 0) {
             System.out.println("No es posible dividir por cero.");
         }else {
             double result = number1 / number2;
             System.out.println(number1 + "/" + number2 + ": " + result);
         }
-
+        // Intenté resolverlo con un try-catch pero no me imprimía el mensaje deseado.
         /*try {
-            return number1 / number2;
+            double result = number1 / number2;
+            System.out.println(number1 + " / " + number2 + ": " + result);
         }catch(ArithmeticException e) {
             System.out.println("No es posible dividir por cero.");
         }*/
@@ -189,7 +189,6 @@ public class CalculadoraCientificaCompleta {
     }
 
     public static void calculatePow(double number1, double number2) {
-        //No sé que retornar en el catch, había pensado en resolverlo con un if.
         if(number2 == 0) {
             System.out.println("No es posible elevar 0 sobre 0.");
         }else {
@@ -197,15 +196,16 @@ public class CalculadoraCientificaCompleta {
             System.out.println(number1 + "^" + number2 + ": " + result);
         }
 
+        // Intenté resolverlo con un try-catch pero no me imprimía el mensaje deseado.
         /*try {
-            return Math.pow(number1, number2);
+            double result = Math.pow(number1, number2);;
+            System.out.println(number1 + "^" + number2 + ": " + result);
         }catch(ArithmeticException e) {
             System.out.println("No es posible dividir por cero.");
         }*/
     }
 
     public static void calculatePercentage(double number1, double number2) {
-        //No sé que retornar en el catch, había pensado en resolverlo con un if.
 
         if(number1 == 0) {
             System.out.println("El " + number1 + " % de " + number2 + " es: 0.");
@@ -214,6 +214,13 @@ public class CalculadoraCientificaCompleta {
             System.out.println("El " + number1 + " % de " + number2 + " es: " + result);
         }
 
+        // Intenté resolverlo con un try-catch pero no me imprimía el mensaje deseado.
+        /*try {
+            double result = ((number2 / number1) * 100);
+            System.out.println("El " + number1 + " % de " + number2 + " es: " + result);
+        }catch(ArithmeticException e) {
+            System.out.println("El " + number1 + " % de " + number2 + " es: 0.");
+        }*/
     }
 
     //----------------------------------------------------------------------------------------
@@ -227,10 +234,16 @@ public class CalculadoraCientificaCompleta {
         double c = getVariable();
 
         double discriminant = calculateDiscriminant(a, b, c);
-        double x1 = ((-b + discriminant) / (2 * a));
-        double x2 = ((-b - discriminant) / (2 * a));
 
-        printQuadraticEquationSolution(a, x1, x2);
+        if(discriminant < 0) {
+            System.out.println("La ecuación ingresada no tiene solución en los reales");
+        } else {
+            discriminant = Math.sqrt(discriminant);
+
+            double x1 = ((-b + discriminant) / (2 * a));
+            double x2 = ((-b - discriminant) / (2 * a));
+            printQuadraticEquationSolution(a, x1, x2);
+        }
     }
 
     public static double calculateDiscriminant(double a, double b, double c) {
@@ -408,14 +421,24 @@ public class CalculadoraCientificaCompleta {
 
         double gradient = calculateGradient(x1, x2, y1, y2);
         double b = (gradient * -x1) + y1;
-        printEquationOfStraightLineSolution(gradient, b);
+        printEquationOfStraightLineSolution(gradient, b, x1);
     }
 
     public static double calculateGradient(double x1, double x2, double y1, double y2) {
-        return ((y2 - y1) / (x2 - x1));
+        if(x1 != x2) {
+            return ((y2 - y1) / (x2 - x1));
+        } else {
+            return 0;
+        }
+        //return ((y2 - y1) / (x2 - x1));
     }
 
-    public static void printEquationOfStraightLineSolution(double gradient, double b) {
-        System.out.println("y = " + gradient + "x + " + b) ;
+    public static void printEquationOfStraightLineSolution(double gradient, double b, double x1) {
+        if(gradient != 0) {
+            System.out.println("y = " + gradient + "x + " + b) ;
+        } else {
+            System.out.println("x = " + x1);
+        }
+
     }
 }
